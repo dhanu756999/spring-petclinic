@@ -7,11 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/your-repo/your-project.git'
-            }
-        }
 
         stage('Build with Maven') {
             steps {
