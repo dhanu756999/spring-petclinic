@@ -19,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "sudo -S docker build -t petclinic:v1 ."
+                    sh "docker build -t petclinic:v1 ."
                 }
             }
         }
