@@ -1,16 +1,31 @@
-#!groovy
 pipeline {
-    agent none
-   stages {     
-    stage('Maven Install') {
-      agent {         
-       dockerContainer {          
-         image 'maven:3.5.0'         
-     }       
-  }       
-  steps {
-       sh 'mvn clean install'
-       }
-     }
-   }
- }
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'your-dockerhub-username/your-app'
+        DOCKER_TAG = 'latest'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/your-repo/your-project.git'
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                script {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                }
+            }
+        }
+  }
